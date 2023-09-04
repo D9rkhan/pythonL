@@ -1,49 +1,40 @@
-#Импортируем библиотеку random
-import random
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler
 
-#Импортируем библиотеку math
-import math
+# Задайте состояния (если вам нужны)
+STATE_1 = 1
+STATE_2 = 2
 
-#Вывод случайного числа
-print(f"Случайное число: {random.randint(1, 5)}")
+# Обработчик команды /start
+def start(update, context):
+    update.message.reply_text("Привет! Я эхо-бот. Отправь мне что-нибудь, и я повторю.")
 
-a = 7
-b = 2
-c = 14.4
-#Сложение +
-print(f"Сложение цифр: {a}+{b} = {a+b}")
+# Обработчик текстовых сообщений
+def echo(update, context):
+    text = update.message.text
+    update.message.reply_text(f"Вы сказали: {text}")
 
-#Минус -
-print(f"Вычитание цифр: {a}-{b} = {a-b}")
+# Обработчик неизвестных команд
+def unknown(update, context):
+    update.message.reply_text("Извините, я не понимаю эту команду.")
 
-#Умножение *
-print(f"Умножение цифр: {a}*{b} = {a*b}")
+def main():
+    # Замените 'YOUR_BOT_TOKEN' на ваш токен, который вы получили от @BotFather
+    updater = Updater(token='6492517339:AAHdrxJ0qyoSDbgrfBVoxlyPKN3zlZUTNsg', use_context=True)
 
-#Деление с остатком (один слэш) /
-print(f"Деление цифр с остатком: {a}/{b} = {a/b}")
+    dp = updater.dispatcher
 
-#Деление без остатка
-print(f"Деление цифр без остатка: {a}//{b} = {a//b}")
+    # Добавьте обработчики команды /start и текстовых сообщений
+    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
 
-#Возведение в степень
-print(f"Возведение в степень: {a}**{b} (Семь в квадрате) = {a**b}")
+    # Добавьте обработчик неизвестных команд
+    dp.add_handler(MessageHandler(Filters.command, unknown))
 
-#Деление по модулю
-print(f"Деление по модулю: {a}%{b} = {a%b}")
+    # Запустите бота
+    updater.start_polling()
 
-#Унарный минус делает число минусовым(Число 7 становится минус -7)
-print(f"Унарный минус: {-a}")
+    # Бот будет работать до принудительной остановки
+    updater.idle()
 
-#Округление
-print(f"Округление числа: {c} -> {round(c)}")
-
-#Импортирование библиотеки math для использования дополнительных математических операций
-
-#Округление в меньшую сторону
-print(f"Округление числа в меньшую сторону: {c} -> {math.floor(c)}")
-
-#Округление в большую сторону
-print(f"Округление числа в большую сторону: {c} -> {math.ceil(c)}")
-
-#Число Пи
-print(f"Число Пи: {math.pi}")
+if __name__ == '__main__':
+    main()
