@@ -1,0 +1,13 @@
+Для запуска кода нужно будет следующие библиотеки
+
+Для перекраски текста в консоли
+pip install colorama
+
+Для вывода итога математических вычислений
+pip install numexpr
+
+Телеграм бот API
+pip install aiogram
+
+Для получаения данных о погоде 
+pip install python-weather
